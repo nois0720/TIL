@@ -35,7 +35,7 @@ add(1, 2); // 3을 반환한다.
 함수 선언(function declaration)은 아래와 같이 사용한다
 ```javascript
 function go() {
-// 실행문
+	// 실행문
 }
 ```
 이와 같은 방식은 자바스크립트 인터프리터가 스크립트를 로딩하는 시점에 바로 초기화하고 이를 VO(variable object)에 저장하기 때문에 함수 위치와 상관없이 소스 내 어느곳에서든 호출이 가능하다.
@@ -48,27 +48,26 @@ function go() {
 // anonymous function expression (익명 함수 표현식)
 // foo(변수)에 할당
 var foo = function(){
-console.log('hello');
+	console.log('hello');
 };
-```
 
 // named function expression(기명 함수 표현식)
 // 역시 foo에 할당
 var foo = function foo(){
-console.log('hello');
+	console.log('hello');
 }
 
 // self invoking function expression(즉시 실행 함수 표현식)
 // 바로 코드 실행.
 (function foo(){
-console.log('hello');
+	console.log('hello');
 })();
 ```
 
 위의 코드에서 두 번째 예제인 named function expression의 경우 해당 함수의 이름을 밖에서는 사용할 수 없다는 특징이 있다.
 ```javascript
 var foo = function A(){
-A(); // 실행 가능
+	A(); // 실행 가능
 }
 
 A(); // syntax error
