@@ -30,6 +30,8 @@ add(1, 2); // 3을 반환한다.
 그래서 두 번째 방법인 function연산자를 이용한 방법을 많이 쓰는데,
 이 방식은 함수 선언(function declaration)과 함수 표현(function expression)으로 나뉜다.
 
+### Function Declaration
+
 함수 선언(function declaration)은 Function Statement라고도 하는데, 말그대로 함수 문장이라는 의미이다. 즉 실행가능한 코드블럭이 아니라 함수의 정의를 나타내는 문장으로 해석되고, 코드 해석에 따른 수행결과가 존재하지 않는다.
 
 함수 선언(function declaration)은 아래와 같이 사용한다
@@ -39,6 +41,8 @@ function go() {
 }
 ```
 이와 같은 방식은 자바스크립트 인터프리터가 스크립트를 로딩하는 시점에 바로 초기화하고 이를 VO(variable object)에 저장하기 때문에 함수 위치와 상관없이 소스 내 어느곳에서든 호출이 가능하다.
+
+### Function Expression
 
 함수 표현(function expression)은 Function Literal이라고도 한다. 이것은 실행 가능한 코드로 해석되거나 변수나 데이터 구조에 함수가 할당됨을 의미한다! 즉 해당 코드블럭이 실행코드로서 해석되고, 동시에 코드 실행에 따른 결과값을 가지거나 혹은 특정 변수에 할당된 값으로 존재하게 된다.
 
