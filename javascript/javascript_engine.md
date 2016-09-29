@@ -1,12 +1,16 @@
 <h1> JavaScript 엔진의 최적화 </h1>
 
 소스코드
--> bytecode형태의 중간언어(IR)로  파싱
+-> bytecode형태의 중간언어(IR - intermediate representation)로  파싱
 -> JITC모드냐? interpreter모드냐?
 -> JITC면 실행중에 native code로 변경, interpreter면 그냥 bytecode 형태로(IR) 읽음
 
 그냥 단순히 생각하면 native code를 읽는게 당연히 byte code 읽는것보다 빠르니까 JITC가 좋을것 같지만.. 이것 역시 상황에 따라 다름
 
+
+source code -> IR (byte code) //-> native code
+연산이 많은 애들 -> native code로 변환하는 오버헤드는 물론 존재하지만 수행시간이 극도 짧아짐
+연산이 적어 -> 수행시간은 별 차이가 없지만 native code로 변환하는데 오버헤드가 큼
 
 GCC(GNU Compiler Collection)같은 static compiler라면 native code를 생성할때 많은 최적화 알고리즘을 적용하기때문에 코드의 성능(code quality)이 높지만 JITC는 말 그대로 수행 중에 컴파일을 하기 때문에 이것이 큰 overhead가 되고, 즉 컴파일에 많은 시간을 쏟을 수 없다는 말이 된다.
 
@@ -26,7 +30,7 @@ JavaScript는 변수의 타입이 런타임에 달라질 수 있고 클래스 �
 
 
 hotspot이 적은 경우 native code를 수행하는 시간에 비해서 native code를 만드는 시간이 길다. 다시 말해 compile overhead가 상대적으로 커진다.
-
+ 
 그래서 사실 JIT compiler로 native code를 수행한다고 해도 많은 부분이 interpreter와 별반 차이가 없게 된다. 여기에 compilation overhead가 더해지므로 hotspot이 별로 없는 JavaScript에서는 interpreter보다 JITC가 훨씬 비효율적이다.
 
 근데 최근 JavaScript도 단순히 web에서 이벤트 처리 용도로만 사용되는게 아니라 compute-intensive한 프로그램 구현에도 점차 요구되고 있기 때문에 JITC를 완전히 버릴 수 없었다.
@@ -39,12 +43,17 @@ hotspot이 적은 경우 native code를 수행하는 시간에 비해서 native 
 
 그래서 최근 JavaScript엔진들은 Adaptive JIT Compilation 방식을 택하고 있다고 함!
 
-이 방식은 모든 코드를 일괄적으로 같은 수준으로 최적화 하지 않고, 반복 수행 정도에 따라 유동적으로 서로 다른 최적화 수준을 적용한다.
 
+이 방식은 모든 코드를 일괄적으로 같은 수준으로 최적화 하지 않고, 반복 수행 정도에 따라 유동적으로 서로 다른 최적화 수준을 적용한다.
 
 처음에는 모든 코드 interpreter로 수행
 -> hotspot 발견
 -> 그 부분에 대해서 JITC적용 -> native code로 수행
+
+C# JITC -> native 
+
+Java -> C# 기존에있는것들로 해결을 하려고 함 => 성능 저하 프로그래머가 원하는 결과가 안나온다
+C# -> Java
 
 최근 엔진들은 JITC도 여러 단계로 나누어서 적용.
 처음에는 최소한의 최적화(baseline-JITC)만 적용해서 컴파일하고, 더 자주 반복되는 코드에는 더 많은 최적화(Optimizing_JITC) 적용하여 code quality가 높은 코드 생성.
