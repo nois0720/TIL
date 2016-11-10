@@ -5,7 +5,7 @@
 
 자바스크립트 내의 모든 숫자는 IEEE[GitHub](https://ko.wikipedia.org/wiki/%EC%A0%84%EA%B8%B0_%EC%A0%84%EC%9E%90_%EA%B8%B0%EC%88%A0%EC%9E%90_%ED%98%91%ED%9A%8C) 754 표준에서 정의한 64비트로 인코딩된 double-precision의 부동 소수점 숫자이다. 그런데 Integer의 경우, 
 
-'''javascript
+```javascript
 0.1 * 1.9 // 0.19
 
-'''
+```
