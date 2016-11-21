@@ -103,4 +103,51 @@ console.log(o.constructor === Boolean); // true
 
 Object() 생성자의 이 같은 동작 방식 때문에, 런타임에 결정하는 동적인 값이 생성자의 인자로 전달될 경우, 예기치 않은 결과가 반환될 수 있다. 결론적으로 new Object를 사용하지 말고 더 간단하면서 안정적인 객체 리터럴을 사용하자.
 
+## 사용자 정의 생성자 함수
+객체 리터럴 패턴이나 내장 생성자 함수를 쓰지 않고, 직접 생성자 함수를 만들어 객체를 생성할 수도 있다.
 
+```javascript
+var john = new Person("john");
+john.say(); // "I am john"
+```
+
+이 패턴은 마치 Person이라는 클래스를 이용하여 객체를 생성하는 것 처럼 보인다. 그러나 문법은 비슷해도 자바스크립트에선 클래스가 없으며 Person은 그저 일반적인 함수일 뿐이다.
+
+다음은 Person 생성자 함수를 정의한 예이다.
+```javascript
+var Person = function(name) {
+	this.name = name;
+	this.say = function() {
+		return "I am " + this.name;
+	};
+};
+```
+
+new와 함께 생성자 함수를 호출하면 함수 안에서 다음과 같은 일이 일어난다.
+
+* 빈 객체가 생성된다. 이 객체는 'this'로 참조할 수 있고 해당 함수의 프로토타입을 상속받는다.
+* this로 참조되는 객체에 프로퍼티와 메서드가 추가된다.
+* 마지막에 다른 객체가 명시적으로 반환되지 않으면, this로 참조된 이 객체가 반환된다.
+
+즉 이면에서는 다음과 같이 진행된다고 할 수 있다.
+
+```javascript
+var Person = function (name) {
+	// 객체 리터럴로 새로운 객체 생성.
+	// var this = {};
+	
+	// 프로퍼티와 메서드를 추가한다.
+	this.name = name;
+	this.say = function() {
+ 		return "I am " + this.name;
+	};
+}
+```
+
+이 예제에서는 간단히 say()라는 메서드를 this에 추가했다. 결과적으로 new Person()을 호출할 때마다 메모리에 새로운 함수가 생성된다. say()라는 메서드는 인스턴스별로 달라지지 않으므로 이런 방식 보다는 Person의 프로토타입에 추가하는 것이 낫다.
+
+```javascript
+Person.prototype.say = function(){
+	return "I am " + this.name;
+}
+```
