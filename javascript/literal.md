@@ -151,3 +151,69 @@ Person.prototype.say = function(){
 	return "I am " + this.name;
 }
 ```
+
+이 내용은 프로토타입에 대한 내용을 따로 다룰때 더 자세히 작성하고, 여기서는 메서드와 같이 재사용되는 멤버를 프로토타입에 추가한다는 점만 작성한다. 다음으로 넘어가기 전에, 다시 언급하자면 생성자 내부에서는 다음과 같은 일이 벌어진다.
+
+```javascript
+	//var this = {};
+```
+
+이것이 다가 아니라, 사실 '빈'객체라는 것은 사실 텅 빈것이 아니라 Person프로토타입을 상속받는다. 즉 다음 코드와 더 가깝다.
+
+```javascript
+	//var this = Object.create(Person.prototype);
+```
+
+## 생성자의 반환 값
+
+생성자 함수를 new와 함께 호출하면 항상 객체가 반환된다. 기본값은 this로 참조되는 객체이다. 생성자 함수 내에서 아무런 프로퍼티나 메서드를 추가하지 않았다면 빈 객체가 반환될 것이다.
+
+함수 내에 return문을 쓰지 않았더라도 생성자는 암묵적으로 this를 반환한다. 그러나 반환 값이 될 객체를 따로 정할 수도 있다. 다음 예제에서는 새로운 객체를 생성하여 that으로 참조하고 반환하는 것을 볼 수 있다.
+
+```javascript
+var Objectmaker = function() {		
+	// 생성자가 다른 객체를 대신 반환하기로 결정하였다
+	this.name = "This is it";
+	// 이 name 프로퍼티는 무시된다.
+
+	// 새로운 객체를 생성하여 반환한다.
+	var that = {};
+	that.name = "And that's that";
+	return that;
+};
+
+//테스트
+var o = new Objectmaker();
+console.log(o.name); // "And that's that"
+```
+
+이와 같이 생성자에서는 어떤 객체라도 반환할 수 있다. (객체이기만 하다면..) 객체가 아닌 것을 반환하려고 시도하면(예를 들면 string, number 등) 에러가 발생하지는 않지만 무시되고 this에 의해 참조된 객체가 대신 반환된다!
+
+## 'new'를 강제하는 패턴
+
+앞에서 언급했듯이 생성자란 new와 함께 호출될 뿐 여전히 별다를 것 없는 함수에 불과하다. 그렇다면 생성자를 호출할 때 new를 빼먹으면 어떻게 될까..?
+
+답은 다음과 같다. syntax error 혹은 runtime error는 발생하지 않지만, 예기치 못한 결과를 초래할 수 있다. 왜냐하면 new를 뺴먹으면 생성자 내부의 this가 전역 객체를 가리키게 되기 때문이다.
+
+생성자 내부에 this.member와 같은 코드가 있고 이 생성자를 new 없이 호출하면, 실제로는 전역 객체에 member라는 새로운 프로퍼티가 생성된다. 이 프로퍼티는 window.member 또는 member를 통해 접근할 수 있다. 전역 네임스페이스를 사용하게 되므로 이러한 방식은 바람직하지 않다.
+
+```javascirpt
+// 생성자
+function Waffle() {
+	this.tastes = "yummy";
+}
+
+// 새로운 객체
+var good_morning = new Waffle();
+console.log(typeof good_morning); // "Object"
+console.log(good_morning); // "yummy"
+
+// anti-pattern
+var good_morning = Waffle();
+console.log(typeof good_morning); // "undefined"
+console.log(window.tastes); // "yummy"
+```
+
+ES5에서는 이러한 동작 방식의 문제를 해결하기 위해, strict모드에서는 this가 전역 객체를 가리키지 않도록 하였다. strict모드를 사용할 수 없다면 생성자 함수가 new 없이 호출되어도 항상 동일하게 동작하도록 보장하는 방법을 사용해야한다.
+
+
