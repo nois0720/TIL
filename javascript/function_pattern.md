@@ -98,4 +98,59 @@ findNodes(function (node)) {
 });
 ```
 
+### 콜백과 scope
 
+이전의 예제에서, 콜백함수는 callback(parameters) 같은 형태로 실행되었다. 이 코드는 간단하기도 하고 대부분 충분히 훌륭하게 동작한다. 그러나 콜백이 일회성의 익명 함수나 전역함수가 아닌 객체의 메서드인 경우도 있다. 만약 콜백메서드가 자신이 속해 있는 객체를 참조하기 위해 this를 사용하면 예상치 않게 동작할 수도 있다.
+
+myapp이라는 객체의 메서드인 paint()함수를 콜백으로 사용한다고 가정해보자. 
+```javascript
+	var myapp = {};
+	myapp.color = "green";
+	myapp.paint = function (node) {
+		node.style.color = thie.color;
+	};
+```
+
+그리고 위에서 정의한 findNodes(myapp.paint)를 호출하면 this.color가 정의되지 않아서 예상대로 동작하지 않는다. findNodes()는 전역 함수이기 때문에, 객체 this는 전역 객체를 참조한다. 만약 findNodes()가 객체의 메서드라면, 콜백 내부의 this는 예상과는 달리 myapp이 아닌 해당 객체를 참조하게 된다.
+
+이 문제를 해결하기 위해서, 콜백 함수와 함께 콜백이 속해 있는 객체를 전달하면 된다. 
+
+```javascript
+	findNodes(myapp.paint, myapp);
+```
+
+전달받은 객체를 바인딩하도록 findNodes()또한 수정한다.
+
+```javascript
+var findNodes = function(callack, callback_obj) {
+	//...
+	if (typeof callback === "function") {
+		callback.call(callback_obj, found);
+	}
+	//...
+}
+```
+
+콜백으로 사용될 메서드와 객체를 전달할 때, 메서드를 문자열로 전달할 수도 있다. 이렇게 하면 객체를 두 번 반복하지 않아도 된다. 다시 말해서 다음 명령을 
+
+```javascript
+// 1
+findNodes(myapp.paint, myapp);
+
+// 2
+findNodes("paint", myapp);
+```
+
+1 혹은 2와 같이 바꿀 수 있다. 
+
+```javascript
+	if (typeof callback === "string") {
+		callback = callback_obj[callback];
+	}
+	// ...
+	
+	if (typeof callback === "function") {
+		callback.call(callback_obj, found);
+	}
+	// ...
+```
