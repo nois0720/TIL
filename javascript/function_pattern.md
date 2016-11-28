@@ -131,26 +131,25 @@ var findNodes = function(callack, callback_obj) {
 }
 ```
 
-콜백으로 사용될 메서드와 객체를 전달할 때, 메서드를 문자열로 전달할 수도 있다. 이렇게 하면 객체를 두 번 반복하지 않아도 된다. 다시 말해서 다음 명령을 
+### 비동기 이벤트 리스너
+
+이러한 콜백 패턴은 다양하게 사용된다. 예를 들면 페이지의 엘리먼트에 이벤트 리스너를 붙이는 것도 실제로는 이벤트가 발생되었을 때 호출될 콜백 함수의 포인터를 전달하는 것이다. 다음은 document의 click 이벤트 리스너로 console.log()콜백 함수를 전달하는 예제이다.
+
+document.addEventListener("click", console.log, false);
+
+대부분의 클라이언트 즉 브라우저는 event-driven방식인데, (예를 들면 페이지 로딩이 끝나면 load이벤트를 발생시킨다.) 사용자는 페이지에 클릭, 키 입력 등과 같은 다양한 이벤트를 발생시킨다. 이러한 콜백 패턴은, event-driven을 구현하는데 적합하다.
+
+또 다른 콜백 패턴 예제는 브라우저의 window 객체에 의해 제공되는 timeout메서드인 setTimeout()과 setInterval()이다. 이 메서드들도 콜백 함수를 받아서 실행시킨다.
 
 ```javascript
-// 1
-findNodes(myapp.paint, myapp);
-
-// 2
-findNodes("paint", myapp);
+	var thePlotThickens = function() {
+		console.log('500ms later...');
+	};
+	setTimeout(thePlotThickens, 500);
 ```
 
-1 혹은 2와 같이 바꿀 수 있다. 
+thePlotThickens가 괄호 없이 변수로 전달된 것을 볼 수 있다. 여기서는 이 함수를 setTimeout이 나중에 호출할 함수를 가리키는 포인터로 전달하였음을 확인 할 수 있다.
 
-```javascript
-	if (typeof callback === "string") {
-		callback = callback_obj[callback];
-	}
-	// ...
-	
-	if (typeof callback === "function") {
-		callback.call(callback_obj, found);
-	}
-	// ...
-```
+### 함수 반환
+
+함수는 객체이기 때문에, return값으로 사용될 수 있다. 즉 함수의 실행 결과로 꼭 어떤 값이나 배열을 반환할 필요가 없다는 뜻이다. 보다 특화된 함수를 반환할 수도 있고, 입력 값에 따라 필요한 함수를 새로 만들어낼 수도 있다.
