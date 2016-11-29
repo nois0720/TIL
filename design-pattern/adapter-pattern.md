@@ -2,11 +2,11 @@
 
 어댑터 패턴 개념은 일상에서도 자주 볼 수 있다.
 
-![Adapter_1](/../image/adapter_1.jpg)
+![Adapter_1](/image/adapter_1.jpg)
 US의laptop이 요구하는 인터페이스와, 유럽에서 사용하는 플러그의 인터페이스가 다르므로, 어댑터를 이용하는 것을 볼 수 있다.
 
 어댑터 패턴도 이와 마찬가지이다.
-![Adapter_2](/../image/adapter_2.jpg)
+![Adapter_2](/image/adapter_2.jpg)
 
 어댑터 패턴(Adapter pattern)은 클래스의 인터페이스를 사용자가 기대하는 다른 인터페이스로 변환하는 패턴으로, 호환성이 없는 인터페이스 때문에 함께 동작할 수 없는 클래스들이 함께 작동하도록 해준다.
 
