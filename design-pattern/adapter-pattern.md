@@ -23,6 +23,68 @@
 * Adaptee : 단어의 뜻 그대로, Adaptee(Adapt되는 쪽)이다. 즉, 이미 준비되어 있는 메소드를 가지고 있다. (유럽의 AC전원에 해당한다) 
 * Adapter : Adaptee 역할의 메소드를 잘 변환시켜 Target이 사용할 수 있도록 만드는 역할을 한다.
 
+이해를 돕기 위해서 코드를 보자.
+
+```java
+public interface Duck {
+	public void quack();
+	public void fly();
+}
+
+public class MallardDuck implement Duck {
+	@Override
+	public void quack() {
+		System.out.println("Quack");
+	}
+
+	@Override
+	public void fly() {
+		System.out.println("I'm flying");
+	}
+}
+
+public interface Turkey {
+	public void gobble();
+	public void fly();
+}
+
+public class WildTurkey implements Turkey{
+	@Override
+	public void gobble() {
+		System.out.println("Gobble gobble");
+	}
+
+	@Override
+	public void fly() {
+		System.out.println("I'm flying short distance");
+	}
+}
+```
+
+만약에, Duck 객체가 모자라서 Turkey 객체를 대신 사용해야 하는 상황이라고 가정하자.
+
+인터페이스가 다르기 때문에 Turkey 객체를 바로 Duck처럼 사용할 수 없다. 이러한 경우 어댑터를 만든다.
+
+```java
+public class TurkeyAdapter implements Duck {
+	Turkey turkey
+
+	public TurkeyAdapter(Turkey turkey) {
+		this.turkey = turkey;
+	}
+
+	@Override
+	public void quack() {
+		turkey.gobble();
+	}
+
+	@Override
+	public void fly() {
+		turkey.fly();
+	}
+}
+```
+
 ## 어댑터의 종류
 
 어댑터는 객체 어댑터와 클래스 어댑터로 나뉜다.
@@ -31,4 +93,7 @@
 * composition을 사용한다
 * Adaptee뿐만 아니라 해당 서브 클래스에 대해서도 어댑터 역할을 할 수 있다는 장점이 있다.
 
+![object_adapter](/image/object-adapter.png)
+
+Adapter는 Target에게서만 상속을 받고, Adaptee는 객체 참조만 한다.
 
