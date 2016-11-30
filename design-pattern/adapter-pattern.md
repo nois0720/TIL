@@ -14,7 +14,7 @@
 
 따라서 클라이언트와 구현된 인터페이스를 분리시킬 수 있고, 향후 인터페이스가 변경되더라도 그 변경 내역은 어댑터에 캡슐화 되기 때문에 클라이언트는 변경이 필요 없다. 다음은 어댑터 패턴 클래스 다이어그램이다.
 
-![class-diagram](/image/adapter_pattern_cd.png)
+![class-diagram](/image/Adapter_pattern_cd.png)
 
 클래스 다이어그램에 보면, Target(타겟)과 Adaptee(어댑티)라는 용어가 등장하는데, 먼저 이를 설명하고 넘어가려고 한다.
 
@@ -81,6 +81,34 @@ public class TurkeyAdapter implements Duck {
 	@Override
 	public void fly() {
 		turkey.fly();
+	}
+}
+```
+
+그럼 이제 신나게 테스트를 해보자!
+
+```java
+public class DuckTest {
+	public static void main(String[] args){
+		MallardDuck duck = new MallardDuck();
+
+		WildTurkey turkey = new WileTurkey();
+		Duck turkeyAdapter = new TurkeyAdapter(turkey);
+
+		System.out.println("The turkey says..");
+		turkey.gobble();
+		turkey.fly();
+
+		System.out.println("The Duck says...");
+		testDuck(duck);
+
+		System.out.println("The TurkeyAdapter says...");
+		testDuck(turkeyAdapter);
+	}
+
+	public static void testDuck(Duck duck){
+		duck.quack();
+		duck.fly();
 	}
 }
 ```
