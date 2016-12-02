@@ -61,9 +61,9 @@ public class WildTurkey implements Turkey{
 }
 ```
 
-만약에, Duck 객체가 모자라서 Turkey 객체를 대신 사용해야 하는 상황이라고 가정하자.
+만약에, Turkey 객체를 Duck객체로 대신 사용해야 하는 상황이라고 가정하자.
 
-인터페이스가 다르기 때문에 Turkey 객체를 바로 Duck처럼 사용할 수 없다. 이러한 경우 어댑터를 만든다.
+하지만 두 클래스가 구현하는 인터페이스가 다르기 때문에 Turkey 객체를 바로 Duck처럼 사용할 수 없다. 이러한 경우 어댑터를 만든다.
 
 ```java
 public class TurkeyAdapter implements Duck {
@@ -98,12 +98,18 @@ public class DuckTest {
 		System.out.println("The turkey says..");
 		turkey.gobble();
 		turkey.fly();
+		// "Gobble gobble"
+		// "I'm flying short distance"
 
 		System.out.println("The Duck says...");
 		testDuck(duck);
+		// "Quack"
+		// "I'm flying"
 
 		System.out.println("The TurkeyAdapter says...");
 		testDuck(turkeyAdapter);
+		// "Gobble gobble"
+		// "I'm flying short distance"
 	}
 
 	public static void testDuck(Duck duck){
@@ -115,7 +121,9 @@ public class DuckTest {
 
 ## 어댑터의 종류
 
-어댑터는 객체 어댑터와 클래스 어댑터로 나뉜다.
+어댑터는 객체 어댑터와 클래스 어댑터의 두 종류로 나뉜다.
+
+클래스 어댑터 패턴을 쓰려면 다중 상속이 필요한데, 자바에서는 다중 상속이 불가능하다. 그래서 이 경우 extends와 implements를 동시에 사용함으로서 이를 구현한다. 두 어댑터 클래스 다이어 그램을 보면 이해가 수월하다.
 
 1. 객체 어댑터
 * composition을 사용한다
