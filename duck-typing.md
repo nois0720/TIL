@@ -95,5 +95,40 @@ class MyBinaryTree implements Iterable {
 		// ...
 	} 
 }
-
 ```
+
+위의 예제 역시 마찬가지로 같은 코드로 순회하면서 출력할 수 있다. 이제 새로운 자료구조를 만들고 Iterable을 구현하여 iterator()를 작성한 후 적절한 iterator를 반환하면 된다. implements Iterable을 추가하지 않고 iterator()를 작성하면 해당 인터페이스를 구현한다고 생각하지 않는다.
+
+그럼 Duck Typing은 어떨까? 아래의 파이썬 코드의 예제를 살펴보자
+
+```python
+class MyArray(Object):
+	def __len__():
+		# return array size
+	def __getItem(y):
+		# return object in index 'y'
+	def __iter__():
+		# return iter
+```
+
+다음과 같이 배열을 순회할 수 있다.
+
+```python
+def printAll(numbers):
+	itr = numbers.__iter__()
+	for x in itr:
+		print x
+```
+
+단순히 iter()만 구현했음에도 불구하고 순회 가능한 타입으로 사용될 수 있다.
+위의 파이썬 코드는 아래와 같이 사용할 수 있다.
+
+```python
+def printAll(numbers):
+	for x in numbers
+		print x
+```
+
+덕 타이핑을 이용하면 더 간결하게 코드를 작성할 수 있다. 그러나 파이썬에서의 덕 타이핑은 실행을 해봐야 문제가 발생하는 지 알 수 있다. 즉, numbers로 넘어오는 오브젝트가 iter()을 정의해 두고 있는지 실행해 보기 전까지는 모른다. 즉 런타임에 오류가 발생한다.
+
+반면, 자바에서는 printAll() 메소드가 Iterable을 구현하는 클래스만 받기 때문에, 컴파일 시에 오류가 난다.
