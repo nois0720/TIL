@@ -27,8 +27,34 @@ HTTP는 HyperText Transfer Protocol의 약자로, 웹에서 정보를 주고 받
 
 HTTP/1.1의 Req-Res는 항상 순서를 기준으로 수행된다. 하나의 TCP 연결에서 3 개의 이미지(1.png, 2.png, 3.png)를 얻으려고 할 때, HTTP의 요청 순서는 다음과 같다.
 
------ 1.png -----
+ ----- 1.png -----
 				
-                 ----- 2.png -----
+                  ----- 2.png -----
 
-				 				  ----- 3.png -----
+   					 			   ----- 3.png -----
+
+이미지를 요청하고, 응답받고 나서야 다음 이미지를 요청하게 된다. 그런데 만약 첫 번째 이미지를 요청하고 응답이 지연될 경우, 그 다음 요청할 이미지는 첫 번째 이미지에 대한 응답이 완료되기까지 기다려야 하며 이를 HTTP의 Head of Line Blocking이라고 한다.
+
+## RTT(Round Trip Time) 증가
+
+앞서 말한것처럼 HTTP/1.1은 하나의 connection에 대해 하나의 요청만을 처리한다.(일반적으로 그렇고 keep-alive, pipe lining기법이 있긴 함) 그래서 매 요청마다 connection을 만들게 되고 TCP 위에서 동작하는 HTTP의 특성 상 3-way Handshake가 반복적으로 일어나 불필요한 RTT가 증가하고 네트워크 성능이 저하된다.
+
+## 복잡한 헤더 구조
+
+HTTP/1.1의 헤더에는 많은 메타데이터들이 저장된다. 그런데 사용자가 방문한 웹 페이지는 다수의 http요청이 발생하고, 이 경우 매 요청마다 중복된 헤더값을 전송하게 되며(특히 domain sharding 하지 않은 경우) 또한 해당 도메인에 설정된 쿠키정보도 매 요청시마다 헤더에 포함된다. 이런 복잡한 헤더 구조 때문에 전송하려는 값보다 헤더가 큰 경우도 생긴다.
+
+## 그래서 해결 방법은?
+
+그래서 이러한 HTTP/1.1의 문제점을 극복하기 위해서 여러가지 기술이 도입되었는데
+* Domain Sharding
+* Image Spriting
+* Minify css/JS
+* Data URI Schema
+* Load Faster
+등이 있다.
+
+### Domain sharding
+
+![http1.1](/image/domain-sharding.png)
+
+최신 버전의 브라우저들은 HTTP/1.1의 단점을 극복하기 위해 다수의 connection을 생성해서 병렬로 요청을 보낸다.(그림의 왼쪽 예) 하지만 이러한 connection의 max값이 존재하고 너무 많은 도메인을 이용할 경우 DNS검색과 TCP handshake에서 발생하는 시간때문에 오히려 역효과를 발생할 수도 있다.
