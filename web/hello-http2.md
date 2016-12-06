@@ -76,3 +76,5 @@ Data URI Scheme은 HTML문서내에 이미지와 같은 외부 데이터를 URI�
 
 이런 눈물겨운 노력에도 불구하고 HTTP/1.1의 단점을 근본적으로는 해결할 수 없었고, 구글은 더 빠른 웹을 구현하기 위해서 throughput관점이 아니라 Latency 관점에서 HTTP를 고속화한 SPDY라 불리는 새로운 프로토콜을 구현하였다. SPDY는 HTTP를 대치하는 프로토콜은 아니고 HTTP를 통해 전송을 재정의하는 형태로 구현되었다. SPDY는 HTTP/1.1에 비해서 상당한 성능 향상을 보여줬고, 이는 HTTP/2 초안의 참고 규격이 되었다. 참고로 구글은 SPDY를 올해 말까지만 지원한다고 한다. 곧 http/2로 변경될 예정이라고 함.)
 
+다음 페이지는 http/1.1과 http2를 비교해볼 수 있는 사이트이다.
+[http2-test](https://http2.akamai.com/demo)
