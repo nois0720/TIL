@@ -73,8 +73,45 @@ Data URI Scheme은 HTML문서내에 이미지와 같은 외부 데이터를 URI�
 
 하지만 HTML파일에 포함되다보니 캐시가 되지 않는다는 단점이 있다. 또한 base-64로 데이터를 인코딩하면서 크기가 증가한다. 용량 측면에서 HTTP헤더에서 이득을 보았다고 하더라도 600바이트가 넘어가는 이미지의 경우 base-64 인코딩때문에 손해를 보게 된다.
 
-
 이런 눈물겨운 노력에도 불구하고 HTTP/1.1의 단점을 근본적으로는 해결할 수 없었고, 구글은 더 빠른 웹을 구현하기 위해서 throughput관점이 아니라 Latency 관점에서 HTTP를 고속화한 SPDY라 불리는 새로운 프로토콜을 구현하였다. SPDY는 HTTP를 대치하는 프로토콜은 아니고 HTTP를 통해 전송을 재정의하는 형태로 구현되었다. SPDY는 HTTP/1.1에 비해서 상당한 성능 향상을 보여줬고, 이는 HTTP/2 초안의 참고 규격이 되었다. 참고로 구글은 SPDY를 올해 말까지만 지원한다고 한다. 곧 http/2로 변경될 예정이라고 함.)
+
+## Hello HTTP2
+
+자 이제 그럼 HTTP/2를 만나보도록 하자! HTTP2는 앞서 설명한 SPDY http2 작업그룹이 2012년 10월 부터 시작한 HTTP2 프로토콜 구현을 위한 프로젝트이다. http2 공식 github 페이지의 서문을 보자.
+
+“HTTP/2 is a replacement for how HTTP is expressed “on the wire.” It is not a ground-up rewrite of the protocol; HTTP methods, status codes and semantics are the same, and it should be possible to use the same APIs as HTTP/1.x (possibly with some small additions) to represent the protocol.
+
+The focus of the protocol is on performance; specifically, end-user perceived latency, network and server resource usage. One major goal is to allow the use of a single connection from browsers to a Web site.”
+
+내용은 다음과 같다. 
+"HTTP/2는 HTTP가 wire 위에서 표현되는 방법을 대체합니다. 이 것은 프로토콜의 재작성을 의미하지 않습니다. HTTP 메소드, 상태 코드 및 의미는 동일하며 프로토콜을 나타내기 위해 HTTP/1.x와 동일한 API (일부 작은 추가 기능 포함)를 사용할 수 있어야합니다.
+
+HTTP/2의 초점은 성능에 있습니다. 특히 최종 사용자가 대기 시간, 네트워크 및 서버 리소스 사용을 인식합니다. 주요 목표 중 하나는 브라우저에서 웹 사이트로의 단일 연결을 허용하는 것입니다."
+
+다시 말해서, 새로운 프로토콜이 아니라 기존의 HTTP의 성능 향상에 초점을 둔 프로토콜이라고 명시하고 있다.
+
+그럼 HTTP/2가 어떻게 성능 향상을 이끌어내는지 알아보도록 하자.
+
+### Multiplexed Streams
+
+![http2_ms](image/multiplexed-streams)
+	
+하나의 TCP Connection으로 동시에 여러개의 메세지를 주고 받을 있으며, 응답은 순서에 상관없이 stream으로 주고 받는다. (추후 HTTP1.1 내용 추가)
+
+### Stream Prioritization
+HTML문서안에 CSS파일 1개와 Image파일 2개가 존재하고, 이를 클라이언트가 각각 요청하였다고 하자. 만약 Image파일보다 CSS파일의 수신이 늦어지는 경우 브라우저의 렌더링이 늦어지는 문제가 발생한다. 반면 HTTP/2의 경우 리소스간 의존관계(priority)를 설정하여 이런 문제를 해결한다.
+
+### Server Push
+
+HTTP2요청에 대해서 서버는 요청하지 않은 리소스를 마음대로 보내주기도 한다.
+// 추가예정
+
+### Header Compression
+// 추가예정
+
+### HTTP1.1과 HTTP2의 성능 비교
+
+두 프로토콜의 객관적인 성능비교 지표는 테스트마다 외부 요인의 영향으로 정확하게 알 수는 없지만, 일반적으로 HTTP/2를 사용만 해도 응답 속도가 HTTP/1.1에 비해 15~50%가 향상 된다고 한다.
 
 다음 페이지는 http/1.1과 http2를 비교해볼 수 있는 사이트이다.
 [http2-test](https://http2.akamai.com/demo)
