@@ -94,24 +94,44 @@ HTTP/2의 초점은 성능에 있습니다. 특히 최종 사용자가 대기 �
 
 ### Multiplexed Streams
 
-![http2_ms](image/multiplexed-streams)
+![http2_ms](image/multiplexed-streams.png)
 	
-하나의 TCP Connection으로 동시에 여러개의 메세지를 주고 받을 있으며, 응답은 순서에 상관없이 stream으로 주고 받는다. (추후 HTTP1.1 내용 추가)
+하나의 TCP Connection으로 동시에 여러개의 메세지를 주고 받을 수 있으며, 응답은 순서에 상관없이 stream으로 주고 받는다. (추후 HTTP1.1 내용 추가)
 
 ### Stream Prioritization
 HTML문서안에 CSS파일 1개와 Image파일 2개가 존재하고, 이를 클라이언트가 각각 요청하였다고 하자. 만약 Image파일보다 CSS파일의 수신이 늦어지는 경우 브라우저의 렌더링이 늦어지는 문제가 발생한다. 반면 HTTP/2의 경우 리소스간 의존관계(priority)를 설정하여 이런 문제를 해결한다.
 
 ### Server Push
 
-HTTP2요청에 대해서 서버는 요청하지 않은 리소스를 마음대로 보내주기도 한다.
-// 추가예정
+HTTP2요청에 대해서 서버는 클라이언트가 요청하지 않은 리소스를 마음대로 보내주기도 한다. 이게 무슨 소린가 싶겠지만 설명을 보도록 하자.
+
+
 
 ### Header Compression
-// 추가예정
+앞에서 HTTP1.1에 대해서 설명하면서, 헤더 구조의 복잡함에 대해서 이야기했었다. HTTP2에서는 이를 해결하기 위해서, 헤더의 크기를 줄이기 위해 두 가지 방법을 활용한다.
+
+* Huffman Coding
+* Header Tables
+
+서버가 헤더 'Date:Wed, 07 Dec 2016 00:00:00 GMT'를 클라이언트에게 전송한다고 하자. HTTP2는 먼저, 헤더 값에 Huffman coding을 적용시킨다. 이때 헤더의 크기는 34에서 29가 된다.
+
+Index | Header Name | Header Value
+1 	|	:authority	| 
+... |	...			| ...
+33 	|	date		| 
+... |	...			| ...
+61	| 	www-authenticate |
+
+다음으로, Static Header Table에서 'date'을 찾아 이 값을 static header table의 index로 변경시킨다. 여기까지 적용이 되면, 헤더의 크기는 24가 된다. 기존의 크기에서 약 2/3로 줄어들었다. 그리고 이와 동시에, Dynamic Header Table에 'Date:Wed, 07 Dec 2016 00:00:00 GMT'를 저장한다. 
+
+Index	| Header Name	| Header Value
+62		| date			| 'Date:Wed, 07 Dec 2016 00:00:00GMT'
+
+만약 또 서버에서 'Date:Wed, 07 Dec 2016 00:00:00GMT'라는 값을 보낸다면, 헤더 필드를 Dynamic Header Table에서 'Date:Wed, 07 Dec 2016 00:00:00GMT'에 해당하는 index로 대체한다. 이 경우 헤더의 크기는 1이 된다..!
 
 ### HTTP1.1과 HTTP2의 성능 비교
 
 두 프로토콜의 객관적인 성능비교 지표는 테스트마다 외부 요인의 영향으로 정확하게 알 수는 없지만, 일반적으로 HTTP/2를 사용만 해도 응답 속도가 HTTP/1.1에 비해 15~50%가 향상 된다고 한다.
 
 다음 페이지는 http/1.1과 http2를 비교해볼 수 있는 사이트이다.
-[http2-test](https://http2.akamai.com/demo)
+[https://http2.akamai.com/demo](https://http2.akamai.com/demo)
