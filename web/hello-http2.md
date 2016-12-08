@@ -94,9 +94,13 @@ HTTP/2의 초점은 성능에 있습니다. 특히 최종 사용자가 대기 �
 
 ### Multiplexed Streams
 
-![http2_ms](image/multiplexed-streams.png)
+![http2_ms](/image/multiplexed-streams.png)
 	
-하나의 TCP Connection으로 동시에 여러개의 메세지를 주고 받을 수 있으며, 응답은 순서에 상관없이 stream으로 주고 받는다. (추후 HTTP1.1 내용 추가)
+stream은 간단히 정의하자면 Request를 보내고 그에 해당하는 하나의 Response를 받을 수 있는 단위라고 생각할 수 있다.
+
+하지만 HTTP2에서는 하나의 TCP Connection으로 동시에 여러개의 메세지를 주고 받을 수 있으며, 응답은 순서에 상관없이 stream으로 주고 받는다. 
+
+물론 기존의 HTTP/1.1에서도 하나의 connection에 여러 개의 Request를 보낼 수 있는 Keep-Alive 구조가 있다. 하지만 이는 request에 따라 순서대로 response를 보내야한다. 따라서 만약 하나의 response의 사이즈가 크거나, 처리속도가 오래 걸린다면 이는 전체적인 속도의 저하를 일으킨다.(HOLB)
 
 ### Stream Prioritization
 HTML문서안에 CSS파일 1개와 Image파일 2개가 존재하고, 이를 클라이언트가 각각 요청하였다고 하자. 만약 Image파일보다 CSS파일의 수신이 늦어지는 경우 브라우저의 렌더링이 늦어지는 문제가 발생한다. 반면 HTTP/2의 경우 리소스간 의존관계(priority)를 설정하여 이런 문제를 해결한다.
@@ -105,7 +109,9 @@ HTML문서안에 CSS파일 1개와 Image파일 2개가 존재하고, 이를 클�
 
 HTTP2요청에 대해서 서버는 클라이언트가 요청하지 않은 리소스를 마음대로 보내주기도 한다. 이게 무슨 소린가 싶겠지만 설명을 보도록 하자.
 
+예를 들어, 어떤 html파일이 있다고 하자. 이 파일은 보통 css나 js파일을 필요로 할 것이다. 그리고 웹 브라우저는 html파일을 읽어보기 전까지는 어떤 리소스가 필요한지 모르기 때문에, html을 요구하고 기다렸다가 html파일이 도착하면 읽고 분석한 후 여러개의 connection을 생성해서 css, js, image등의 리소스 파일을 요청할 수 있다.
 
+서버에서는 server push 기능을 이용해서 필요한 리소스 파일을 미리 보내어 request에 드는 비용을 줄이고 이런 처리에 드는 delay를 없앤다.
 
 ### Header Compression
 앞에서 HTTP1.1에 대해서 설명하면서, 헤더 구조의 복잡함에 대해서 이야기했었다. HTTP2에서는 이를 해결하기 위해서, 헤더의 크기를 줄이기 위해 두 가지 방법을 활용한다.
