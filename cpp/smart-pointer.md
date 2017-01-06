@@ -6,7 +6,7 @@
 
 ## 목차
 * [스마트 포인터란?](https://github.com/nois0720/TIL/blob/master/cpp/smart-pointer.md#스마트-포인터란-도대체-뭘까)
-* [왜 사용하는가?](https://github.com/nois0720/TIL/blob/master/cpp/smart-pointer.md#왜-사용하는가?)
+* [왜 사용하는가?](https://github.com/nois0720/TIL/blob/master/cpp/smart-pointer.md#그럼-왜-사용하는가?)
 * [장점](https://github.com/nois0720/TIL/blob/master/cpp/smart-pointer.md#장점)
 
 ## 스마트 포인터란 도대체 뭘까?
@@ -156,4 +156,4 @@ str2 += " Ryan~";
 
 하지만 스마트 포인터를 사용하면 이런 가정 자체를 무시할 수 있다. 따라서 서로 다른 환경이나 프로그램이 변경되더라도 클래스 전체 코드를 변경하지 않고 항상 최적의 할당계획을 만들 수 있다.
 
-내일은 이러한 스마트 포인터를 어디에 사용하면 좋을지 고민.
+(STL컨테이너에 대한 내용도 있지만 이해가 안되니 나중에 다루도록 하자..ㅠㅠ)
