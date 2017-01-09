@@ -51,6 +51,6 @@ Remote access VPN을 사용하면 가정이나 이동중인 사용자가 인터�
 
 Site-to-site VPN connections(혹은 router-to-router VPN connections라고도 불림)을 사용하면 기관들은 공공네트워크를 통해 분리된 사무실이나 다른 기관과의 연결을 라우팅하는 동시에 커뮤니케이션 시 보안을 유지할 수 있다. 인터넷을 통해 라우팅 된 VPN connection은 logical하게 WAN(wide area network) Link로 작동한다. 아래 그림과 같이 네트워크들이 인터넷으로 연결될 때, 라우터는 VPN connection을 통해서 패킷을 다른 라우터로 포워딩한다. 라우터들에게 VPN connection은 data-link layer 링크처럼 작동한다. 
 
-site-to-site VPN connection은 private network의 두 부분을 연결한다. VPN서버는 VPN서버가 연결된 네트워크에게 라우팅 된 connection을 제공한다. calling route(VPN client)는 answering router에 대해 스스로를 인증하고, 상호간의 인증을 위해서 answering router가 calling router에게 자신을 인증한다. site-to-site VPN connection에서 VPN커넥션을 통해 두 라우터에서 전송한 패킷은 일반적으로 라우터에서 발생하지 않는다.  
+site-to-site VPN connection은 private network의 두 부분을 연결한다. VPN서버는 VPN서버가 연결된 네트워크에게 라우팅 된 connection을 제공한다. calling route(VPN client)는 answering router에 대해 스스로를 인증하고, 상호간의 인증을 위해서 answering router가 calling router에게 자신을 인증한다. site-to-site VPN connection에서 VPN커넥션을 통해 두 라우터에서 전송한 패킷은 일반적으로 라우터에서 발생하지 않는다.
 
 내일은 VPN 터널링 프로토콜에 대해서 다루도록 하자
