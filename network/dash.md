@@ -2,7 +2,7 @@
 
 ## 소개
 
-`DASH`는 ISO 표준(ISO/IEC 23009-1)으로 개발된 HTTP Adaptive Streaming의 한 종류이다. Adaptive Streaming은 'Adaptive'라는 말에서 알 수 있듯이 클라이언트는 자신의 단말기 네트워크 상황에 맞추어 적절한 비디오 화질을 선택하여 서비스를 받을 수 있는 기술입니다.
+`DASH`는 ISO 표준(ISO/IEC 23009-1)으로 개발된 HTTP Adaptive Streaming의 한 종류이다. Adaptive Streaming은 'Adaptive'라는 말에서 알 수 있듯이 클라이언트는 자신의 단말기 네트워크 상황에 맞추어 적절한 비디오 화질을 선택하여 서비스를 받을 수 있는 기술이다.
 
 2008년부터 HTTP 기반의 Adaptive Streaming에 대한 이슈가 `MPEG(Moving Picture Expert Group)`에서 핫하게 떠오르기 시작했다. `MPEG`는 향후에 이 기술이 기존의 Streaming 서비스 환경에 크게 영향을 줄 것으로 예상했고, `MPEG`에서는 `DASH(Dynamic Adaptive Streaming over HTTP)`라는 그룹을 만들어 관련된 Streaming Package 포맷에 대한 표준화를 시작했다. 
 

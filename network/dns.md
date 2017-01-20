@@ -2,6 +2,8 @@
 
 우리는 휴대전화를 사용하면서 친한 친구나 가족의 전화번호를 다 외워서 전화를 걸지 않는다. 보통 전화번호와 함께 이름 혹은 별명등을 대응시켜 전화번호를 외우지 않고도 원하는 사람에게 해당 이름만 검색해서 전화를 건다. 우리는 이런 비슷한 기능을 인터넷에서도 사용하고 있다. 우리는 인터넷을 사용하면서 네이버에 접속하고 싶을 때 브라우저의 주소창에 naver.com를 입력하여 네이버에 접속한다. 사실 naver.com이라고 입력하여 엔터를 치는 순간, DNS라는 녀석이 이를 IP주소로 변환하는 작업을 해준다. 따라서 우리는 실제 naver의 IP주소를 외우지 않고도 쉽게 네이버 페이지에 접속할 수 있다.
 
+nslookup을 통해 naver.com등의 IP주소를 알아낸 후, 브라우저에 해당 주소를 입력하면 네이버 메인페이지가 정상적으로 나옴을 확인할 수도 있다.
+
 **DNS**는 `.com` 또는 `.net` 최상위 도메인(Top-level domain, TLD)의 모든 도메인 네임과 해당 도메인 네임과 대응하는 IP주소를 저장하는 일종의 분산 데이터베이스 시스템이다.
 
 ## Domain Name Structure
@@ -28,8 +30,9 @@ org, edu, com, net, kr... 등은 top level으로 흔히 TLD(Top Level Domain)이
 
 나는 브라우저 주소창에 gaia.cs.umass.edu라고 입력한 후 엔터를 누르겠지만, 브라우저는 사실 gaia.cs.umass.edu에 대한 ip주소를 알아야 해당 주소에 html, css, js등을 요청할 수 있다.
 
-따라서 내 컴퓨터. 즉, requesting host는 먼저 Local DNS server에 gaia.cs.umass.edu에 대응하는 ip주소를 알고있는지 물어보게 된다. 만약 여기서 local DNS Server가 이를 알고있다면, 바로 돌려주게 된다.
+따라서 requesting host는 먼저 Local DNS server에 gaia.cs.umass.edu에 대응하는 ip주소를 알고있는지 물어보기 위해 DNS query를 생성하여 보낸다. 만약 여기서 local DNS Server가 이를 알고있다면, 바로 돌려주게 된다.
 
 * local DNS server가 존재하는 이유가 바로 여기에 있다. 자주 요청하는 주소를 비교적 빠르게 요청/응답이 가능한 local DNS Server에 저장하여 속도를 높힌다.
 
-하지만 local DNS server에 해당 도메인 네임에 해당하는 IP주소가 없다면, 모든 도메인 네임 정보를 가지고 있는 root DNS server에 물어볼 수 밖에 없다. 따라서 local DNS server는 해당 도메인 네임에 대한 정보를 root DNS server에 물어본 후, 
+하지만 local DNS server에 해당 도메인 네임에 해당하는 IP주소가 없다면, 모든 도메인 네임 정보를 가지고 있는 root DNS server에 물어볼 수 밖에 없다. 따라서 local DNS server는 해당 도메인 네임에 대한 정보를 root DNS server에 물어본 후, Iterative하게 Sub Domain Name에 대한 정보를 가진 서버들에게 물어본 후 마지막으로 최종 IP주소를 얻게된다.
+
