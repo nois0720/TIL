@@ -4,7 +4,7 @@
 
 문제는 다음과 같다.
 
-!(image1)[/image/tortoise-and-hare.png]
+![image1](/image/tortoise-and-hare.png)
 
 이러한 링크드 리스트에서 O(n)의 Time Complexity와 O(1)의 저장공간을 이용해서 사이클이 있는지 없는지를 알아내라.
 
@@ -16,7 +16,7 @@
 2. 토끼는 두 노드씩 이동한다.
 3. 링크드리스트의 tail까지 이동하거나 둘이 만날때까지 반복한다.
 
-!(step1)[/image/th-step1.png]  
-!(step2)[/image/th-step2.png]  
-!(step3)[/image/th-step3.png]  
-!(step4)[/image/th-step4.png]  
+![step1](/image/th-step1.png)  
+![step2](/image/th-step2.png)  
+![step3](/image/th-step3.png)  
+![step4](/image/th-step4.png)  
