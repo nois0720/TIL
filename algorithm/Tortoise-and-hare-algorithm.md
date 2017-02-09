@@ -4,7 +4,7 @@
 
 문제는 다음과 같다.
 
-!(image1)[/image/tortoise-and-hare.png]
+![image1](/image/tortoise-and-hare.png)
 
 이러한 링크드 리스트에서 O(n)의 Time Complexity와 O(1)의 저장공간을 이용해서 사이클이 있는지 없는지를 알아내라.
 
