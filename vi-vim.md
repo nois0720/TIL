@@ -14,3 +14,7 @@ VI 사용법은 [여기](https://wiki.kldp.org/KoreanDoc/html/Vim_Guide-KLDP/Vim
 * y : yank. Copy 역할을 하며 yank는 홱 잡아당긴다는 뜻이 있다고 한다.
 * p : put. 붙여 넣기
 * dd : 현재 선택된 행(들) 삭제
+
+## vim 커스터마이징 
+
+.vimrc파일을 수정하여 가능
