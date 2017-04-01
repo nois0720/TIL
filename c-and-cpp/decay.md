@@ -84,6 +84,27 @@ test.c:23:48: warning: sizeof on array function parameter will return size of 'i
 이유는 array가 함수인자로 사용되면 컴파일러가 array를 포인터로 변경하기 때문이다. 
 
 | 변수 타입 | argument로서의 array |
+| --- | --- |
 | int arr[5] | int *arr |
 | int arr[5][6] | int (*arr)[6] |
 | int arr[5][6][7] | int (*arr)[6][7] |
+
+#### array의 Type
+
+array는 lvalue로 쓰일 때와, rvalue로 쓰일 때의 타입이 다르다. 위에서 언급했던 예제 중
+```c
+int arr1[5] = {1, 2, 3, 4, 5};
+int arr2[5] = {6, 7, 8, 9, 0};
+
+arr1 = arr2;
+```
+
+실제 위의 코드를 gcc컴파일 하면, 다음과 같은 메시지를 확인할 수 있다.
+
+```bash
+test1.c:7:7: error: array type 'int [5]' is not assignable
+        arr1 = arr2;
+		~~~~ ^
+```
+
+왜냐하면 lvalue로 사용된 arr1 은 int[5] 타입이고, rvalue로 사용된 arr2는 int*타입이기 때문이다. 즉, array가 unmodifiable lvalue로 사용되지 않으면 array가 모두 array가 pointer로 decay된다.
