@@ -12,6 +12,14 @@
 
 ## Marshalling vs Serialization
 
-위키피디아에 따르면 파이썬 표준라이브러리에서는 동일하게 간주된다고 한다. 반면 자바에서는 구분을 하는데 뭐가 다른걸까? `Marshalling`은 코드베이스를 기록하지만 `Serialization`은 하지 않는다. 즉 RPC(Remote Procedure Call)를 한다는 점에서 유사하지만 목적 자체가 다르다는 것을 의미한다. Marshalling의 경우, RPC를 수행할때 함수의 파라미터, 리턴값을 전달할 수 있지만 Serialization은 구조화된 데이터를 byte stream과 같은 형식으로 복사하는 것을 의미한다고 한다.
+Serialization과 Marshalling은 그럼 어떻게 다를까? 다시 정리하면, Serialization은 자료구조 혹은 객체의 상태를 저장(File, Memory Buffer, Network 등에 사용)할 수 있는 포맷으로 변환하는 것을 말한다. 그리고 이는 다른 컴퓨터 환경에서도 Deserialization을 통해 같은 것으로 재조립이 가능하다.  
+객체지향에서 객체의 Serialization은 객체와 관련된 메소드를 포함하지 않는데, 이를 마샬링이라고 부르기도 한다. 마샬링은 객체의 메모리 표현을 저장공간이나 전송에 적합한 데이터 포맷으로 변환하는 과정이다. 이는 데이터가 프로그램에서 다른 프로그램으로 이동할 때 많이 사용된다.
 
-솔직히 정확히 둘의 차이점은 모르겠지만 Serialization은 객체 자체를 복사하는 개념이라면 Marshalling은 코드베이스를 가져와 만드는 개념이라고 할 수 있겠다. 그래서 객체를 이용하지 않는 다른 언어나 플래솜간의 통신이 필요하면 주로 Marshalling을 한다. 반면 네트워크나 객체의 경우 Serialization을 많이 이용한다.
+Marshalling은 여기저기서 파라미터를 얻는 반면 Serialization은 바이트 스트림과 같은 primitive한 type으로부터 구조화된 데이터를 복사해 오는 것과 관련이 있다. 이런 의미에서 Serialization은 Marshalling을 수행하기 위한 한 가지의 수단으로 볼 수도 있으며, 이런 상황에서는 Pass-by-value로 수행된다.
+
+Serialization은 오브젝트의 멤버변수만 바이트스트림으로 변환한다. 즉, 코드(베이스)를 포함하지 않는다.
+
+Marshalling은 오브젝트를 remote object로 전달할 때 쓰이는 용어다. (RMI. Remote Method Invocation) Marshalling은 오브젝트의 멤버와 코드베이스를 함께 포함한다.  
+즉, Serialization은 Marshalling의 일부라고 할 수 있다.
+
+코드베이스는 오브젝트 코드의 위치를 포함한다. 따라서 코드가 로컬에 없어 수행할 수 없어도 코드베이스를 찾아 코드를 수행할 수 있다. (코드베이스 의미가 정확히 어떤건지 알아봐야지)
