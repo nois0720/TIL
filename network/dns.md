@@ -36,3 +36,22 @@ org, edu, com, net, kr... 등은 top level으로 흔히 TLD(Top Level Domain)이
 
 하지만 local DNS server에 해당 도메인 네임에 해당하는 IP주소가 없다면, 모든 도메인 네임 정보를 가지고 있는 root DNS server에 물어볼 수 밖에 없다. 따라서 local DNS server는 해당 도메인 네임에 대한 정보를 root DNS server에 물어본 후, Iterative하게 Sub Domain Name에 대한 정보를 가진 서버들에게 물어본 후 마지막으로 최종 IP주소를 얻게된다.
 
+## DNS Zone
+
+DNS Zone은 DNS를 구성하는 요소이며, 하나의 파일로 관리된다. 해당 zone 파일은 네임서버 및 관리자 정보, 호스트 주소의 정보, 이메일 호스트 정보 등을 저장한다.
+
+* 네임서버 및 관리자 정보 : 해당 도메인에 대한 책임자가 누구인지 이메일을 설정한다. 이런 도메인에 대한 책임 정보를 `SOA(Start of Authority) Record`라고 한다.
+* 호스트 주소 정보 : DNS는 호스트 정보(주소나 이름)를 활용한 네트워크 접속이므로 호스트(서버)에 대한 정보가 필요하다. 여기에 해당하는 정보는 호스트 IP와 호스트 이름을 말하며 이러한 정보를 `A Record(Address Record)`라고 한다.
+* 이메일 호스트 정보 : `MX(Mail Exchanger) Record` 라고 하며 이메일 서버 이름을 지정한다.
+
+DNS Zone의 타입은 아래의 세 가지가 있다.
+
+* `Primary` : Read / Write
+* `Secondary` : Read Only. Primary의 100% 복사본으로 Primary가 다운되어도 SOA 내의 시간동안 사용 가능.
+* `Stub` : DNS의 기본 정보(SOA, NS, A)만 복사하여 저장.
+
+## DNS Zone Transfer
+
+DNS Zone Transfer는 DNS transaction의 한 유형으로, DNS 서버가 여러 대 있을 때 DNS Zone과 관련된 RR(Resource Record)들을 하나의 서버에서 다른 서버로 복사하는 것을 말하며, AXFR(전체 전송) 과 IXFR(증분 전송)의 두 가지 유형이 있다.
+
+보통 Primary -> Secondary 로의 복사가 이루어지는 경우가 많으며, 여러 Name Server간 동기화를 가능하게 한다. (Load Balancing, redundancy)
