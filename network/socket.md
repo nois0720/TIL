@@ -36,6 +36,34 @@ int sock(int domain, int type, int protocol);
 
 소켓을 생성하면, 해당 소켓의 파일 디스크립터 값을 리턴한다. 이를 통해 해당 소켓에 옵션을 주거나 close 등을 할 수 있게 된다.
 
+## sockaddr와 sockaddr_in
+
+처음에는, sock에 주소를 bind하기 위해 sockaddr 구조체를 사용했다.
+
+```c
+struct sockaddr {
+	sa_family_t	sa_family;		/* Address Family */
+	char		sa_data[14];	/* Address Data */
+};
+```
+
+sa_family_t는 unsigned short integer의 type이며 따라서 해당 구조체는 총 16바이트이다. 하지만, IPv4가 널리 쓰이게 되면서 IPv4와 구조가 맞지 않았고, 현재는 AF_INET으로부터 정의된 sockaddr_in구조체를 사용하게 되었다.
+
+```c
+struct sockaddr_in {
+	sa_family_t		sin_family;		/* address family */
+	uint16_t		sin_port;		/* port number */
+	struct in_addr	sin_addr;		/* internet address */
+	unsigned char	sin_zero[8];	/* pad bytes */
+};
+
+struct in_addr {
+	uint32_t s_addr; /* internet address */
+};
+```
+
+sockaddr_in 역시 기존의 sockaddr와 동일하게 16바이트의 구조체이며, 포트 넘버와 주소를 별도로 가지고 있음을 확인할 수 있다. 특히 주소는 별도의 in_addr 구조체를 사용한다. `sin_zero`는 16바이트를 맞추기 위한 더미 변수이다.
+
 ## sk_buff
 
 소켓을 생성하면 내부적으로는 sk_buff라는 구조체를 생성한다.
