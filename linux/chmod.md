@@ -5,8 +5,37 @@
 chmod 명령어는 다음과 같이 사용한다.
 
 ```bash
-$ chmod [options] mode[,mode] file1 [file2 ...]
+$ chmod [options][references][operator][modes] file1...
 ```
+
+
+## option
+
+* -R : recursive하게 파일들과 디렉터리들의 모드를 변경한다.
+* -v : 실행되고 있는 모든 파일을 나열한다. 
+
+
+## references 
+
+레퍼런스는 파일에 대한 permission이 적용되는 사용자를 구분하기 위해 사용된다. 유닉스에서는 파일에 유저, 그룹, 모든 사용자의 권한을 각각 부여하는데, 이러한 user, group, other 각각을 u, g, o의 레퍼런스로 사용한다. 또한 모든 레퍼런스를 나타내고 싶을 때에는 a(all, ugo와 같음)도 사용 가능하다.
+
+| Reference | class | description |
+| u | user | 파일의 소유자 |
+| g | group | 파일의 그룹 멤버인 사용자 |
+| o | other | 파일의 소유자 혹은 그룹의 멤버가 아닌 사용자 |
+| a | all | user, group, other 모두. ugo |
+
+만약 이해가 잘 되지 않으면 [mode](#mode) 부분을 먼저 읽어도 좋을 듯 하다.
+
+
+## operator
+
+| operator | description |
+| + | 해당 클래스에 지정된 권한 추가 |
+| - | 해당 클래스에 지정된 권한 제거 |
+
+
+## mode
 
 구체적인 사용법을 알아보기에 앞서, 먼저 mode가 무엇인지 알아보도록 하자. 여기서 mode는 파일에 부여하려는 권한 값을 의미한다.
 
@@ -19,11 +48,9 @@ $ ls -l
 ![file-mode-list](/image/file-mode-list.png)
 맥북의 /HOME/User/ 디렉터리에서 `ls -l` 명령어를 실행시킨 모습이다. 가장 좌측에 `drwx------` , `drwx------@`, `drwx------+`, `-rw-r--r--`, `-rwxr--r--` 등을 확인할 수 있는데 이는 각 파일에 해당하는 파일 모드이다. 이제 이것들이 각각 무엇을 의미하는지 알아보도록 하자.
 
-## mode
-
 사실 `ls -l` 명령어를 통해 확인한 알 수 없는 10자리의 값은 파일에 대한 권한을 나타낸다. 이 권한 값은 총 10자리로, 이를 네 부분으로 나누어 해석해야 한다. 파일 타입을 나타내는 1자리(file type), 소유자 권한 3자리(user), 그룹 권한 3자리(group), 전체 권한 3자리이다.(other)
 
-## file type
+#### file type
 
 파일 타입에는 다음과 같은 종류가 있다.
 * - : plain file (일반 파일을 말한다. 실행 파일도 포함한다.)
@@ -33,9 +60,9 @@ $ ls -l
 * b : block device (block 단위로 하드웨어와 반응하는 파일)
 * c : character device (stream 단위로 하드웨어와 반응하는 파일)
 
-## file permission
+#### file permission
 
-앞에서도 살펴봤듯이 파일에는 유저, 그룹, 모든 사용자의 권한을 각각 부여한다. 이 세 권한 그룹을 user, group, other의 첫 문자를 따서 UGO라고 표현하기도 한다.
+앞에서도 살펴봤듯이 파일에는 유저, 그룹, 모든 사용자의 권한을 각각 부여한다. 이 세 권한 그룹에 대해서 r, w, x의 권한을 각각 관리한다.
 
 r, w, x 문자열은 각각 읽기(read), 쓰기(Write), 실행(Execute)를 의미한다. 해당 권한이 있을 경우, 각각을 r, w, x로 표시하며 권한이 없을 경우엔 -로 표시한다.
 
@@ -69,8 +96,3 @@ $ chmod 4 test		# test 파일 권한을 ------r--로 변경
 
 마지막 명령어는 `chmod 004 test` 와 같다.
 
-## option
-
-chmod 명령어는 행동에 영향을 미치는 수많은 명령어 옵션들을 가진다.
-
-* -R : recursive하게 파일들과 디렉터리들의 모드를 변경한다.
