@@ -40,7 +40,8 @@ Git에는 공백 문자를 다루는 방법으로 네 가지가 미리 정의돼
 
 기본적으로 꺼져 있는 나머지 두 개는 indent-with-non-tab과 cr-at-eol이다. intent-with-non-tab은 tab이 아니라 공백 8자 이상으로 시작하는 줄이 있는지 찾고 cr-at-eol은 줄 끝에 CR 문자가 있어도 괜찮다고 Git에 알리는 것이다.
 
-core.whitespace 옵션으로 이 네 가지 방법을 켜고 끌 수 있다. 설정에서 해당 옵션을 빼버리거나 이름이 -로 시작하면 기능이 꺼진다. 예를 들어, 다른 건 다 켜고 cr-at-eol 옵션만 끄려면 아래와 같이 설정한다:
+core.whitespace 옵션으로 이 네 가지 방법을 켜고 끌 수 있다. 설정에서 해당 옵션을 빼버리거나 이름이 -로 시작하면 기능이 꺼진다. 예를 들어
+, 다른 건 다 켜고 cr-at-eol 옵션만 끄려면 아래와 같이 설정한다:
 
 ```
 $ git config --global core.whitespace \
